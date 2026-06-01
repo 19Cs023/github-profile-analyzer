@@ -66,3 +66,4 @@ Fetches the stored data of a specific profile by their GitHub username.
 - Store useful insights like public repository count, followers, following, bio, name, avatar, and profile URL.
 - On duplicate analysis, the API updates the existing database record dynamically to ensure data is up to date.
 - Retrieve all stored profiles or query a specific one.
+-Invoke-RestMethod -Uri http://localhost:3000/api/profiles/analyze -Method Post -Headers @{"Content-Type"="application/json"} -Body '{"username": "username"}
