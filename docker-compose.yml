@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      # These will override what app tries to read from .env
+      - PORT=3000
+      - DB_HOST=db      # Notice this matches the name of the database service below
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+      - DB_NAME=github_analyzer
+    depends_on:
+      db:
+        condition: service_healthy # Wait for MySQL to be fully ready before starting app
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=github_analyzer
+    volumes:
+      # Persist database data locally
+      - db_data:/var/lib/mysql
+      # Automatically run setup.sql on container startup if DB is empty
+      - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+volumes:
+  db_data:
