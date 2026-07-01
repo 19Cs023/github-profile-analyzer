@@ -32,7 +32,7 @@ const analyzeProfile = async (req, res) => {
              (username, name, bio, public_repos, followers, following, profile_url, avatar_url)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?)
              ON DUPLICATE KEY UPDATE 
-             name=VALUES(name), bio=VALUES(bio), public_repos=VALUES(public_repos), 
+             name=VALUES(name), bio=VALUES(bio),  public_repos=VALUES(public_repos), 
              followers=VALUES(followers), following=VALUES(following), 
              profile_url=VALUES(profile_url), avatar_url=VALUES(avatar_url)`,
             [
